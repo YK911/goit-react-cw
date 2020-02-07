@@ -3,8 +3,7 @@ import React from "react";
 import shortid from "shortid";
 import MediaCard from "../../ui/mediaCard/MediaCard";
 
-const NewsArticles = ({ data }) => {
-  console.log("data", data);
+const NewsArticles = ({ data, handleNextPage }) => {
   return (
     <>
       <div
@@ -19,9 +18,23 @@ const NewsArticles = ({ data }) => {
         {data.map(article => {
           const transformArticles = { ...article, id: shortid() };
           return (
-            <MediaCard key={transformArticles.id} {...transformArticles} />
+            <>
+              <MediaCard key={transformArticles.id} {...transformArticles} />
+            </>
           );
         })}
+        <button
+          onClick={() => handleNextPage}
+          style={{
+            width: 300,
+            height: 30,
+            cursor: "pointer",
+            margin: "0 auto",
+            marginTop: "40px"
+          }}
+        >
+          Load more
+        </button>
       </div>
     </>
   );

@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const fetchNews = async (param = "all") => {
+export const fetchNews = async (param = "all", page = 1) => {
   try {
     const data = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/everything?q=${param}&from=2020-01-06&sortBy=publishedAt&apiKey=${process.env.REACT_APP_KEY}`
+      `https://newsapi.org/v2/everything?q=${param}&from=2020-01-07&${page}&sortBy=publishedAt&apiKey=3f29c3ee10be4440aecbede6c0cbb392`
     );
 
     return data.data.articles;
