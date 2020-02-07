@@ -27,7 +27,6 @@ const WishListItem = ({
   const styles = choosePriority[priority];
 
   // const styles = choosePriority(priority);
-  console.log("priority", findOpt(priority));
 
   return (
     <li style={styles}>

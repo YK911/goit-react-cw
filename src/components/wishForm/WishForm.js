@@ -24,15 +24,7 @@ class WishForm extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    console.log(
-      "prevState ---> ",
-      prevState.priority,
-      "||",
-      "this.state ---> ",
-      this.state.priority
-    );
-    if( prevState.priority !== this.state.priority ){
-      console.log('axios')
+    if (prevState.priority !== this.state.priority) {
     }
   }
 

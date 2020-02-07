@@ -3,6 +3,7 @@ import Form from "./components/form/Form";
 import "./App.css";
 import WishForm from "./components/wishForm/WishForm";
 import WishList from "./components/wishList/WishList";
+import axios from "axios";
 
 // [...prev.wishes, value]
 
@@ -16,11 +17,28 @@ class App extends Component {
     wishes: []
   };
 
-  componentDidMount() {
-    const getLocal = JSON.parse(localStorage.getItem("wishes"));
-    this.setState({
-      wishes: getLocal || []
-    });
+  async componentDidMount() {
+    const data = await axios.get(
+      "https://wishlist-e6e8b.firebaseio.com/wishes.json"
+    );
+    const transformFirebase = Object.keys(data.data).map(key => ({
+      ...data.data[key],
+      id: key
+    }));
+    this.setState({ wishes: transformFirebase });
+  }
+
+  async componentDidUpdate(prevProps, prevState) {
+    if (prevState.wishes.length !== this.state.wishes.length) {
+      const data = await axios.get(
+        "https://wishlist-e6e8b.firebaseio.com/wishes.json"
+      );
+      const transformFirebase = Object.keys(data.data).map(key => ({
+        ...data.data[key],
+        id: key
+      }));
+      this.setState({ wishes: transformFirebase });
+    }
   }
 
   getFormValueAuth = value => {
@@ -31,21 +49,24 @@ class App extends Component {
     }
   };
 
-  getFormValueWish = value => {
+  getFormValueWish = async value => {
+    await axios.post(
+      "https://wishlist-e6e8b.firebaseio.com/wishes.json",
+      value
+    );
     this.setState(prev => {
-      localStorage.setItem("wishes", JSON.stringify(addWish(prev, value)));
       return {
         wishes: addWish(prev, value)
       };
     });
   };
 
-  deleteWish = id => {
+  deleteWish = async id => {
+    await axios.delete(
+      `https://wishlist-e6e8b.firebaseio.com/wishes/${id}.json`
+    );
+
     this.setState(prev => {
-      localStorage.setItem(
-        "wishes",
-        JSON.stringify(prev.wishes.filter(elem => elem.id !== id))
-      );
       return {
         wishes: prev.wishes.filter(elem => elem.id !== id)
       };
@@ -59,7 +80,6 @@ class App extends Component {
           elem.priority = priority;
         }
       });
-      localStorage.setItem("wishes", JSON.stringify([...prev.wishes]));
       return {
         wishes: [...prev.wishes]
       };
@@ -72,7 +92,7 @@ class App extends Component {
 
   render() {
     const { isAuth, wishes } = this.state;
-
+    console.log("wishes", wishes);
     return (
       <>
         {isAuth ? (
