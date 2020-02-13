@@ -1,13 +1,22 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import Search from "../components/Search/Search";
-import { fetchNews } from "../fetcher";
+import React, { Component, lazy, Suspense } from "react";
 import axios from "axios";
+import { fetchNews } from "../fetcher";
+import { Spinner } from "../components/Spinner";
+import Btn from "../ui/Button";
+import styles from "./news.module.css";
+import Drawer from "../ui/Drawer";
+import { NewsContext } from "../context/NewsContext";
+import { ControllerContext } from "../context/ControllerContext";
+
+const ShowMenu = lazy(() =>
+  import("../ui/CustomizedMenu" /* webpackChunkName: 'DropMenu' */)
+);
 
 class News extends Component {
   state = {
     news: [],
-    query: ""
+    query: "",
+    isOpen: false
   };
 
   async componentDidMount() {
@@ -23,16 +32,15 @@ class News extends Component {
   }
 
   async componentDidUpdate(prevProps, prevState) {
-    console.log('prevState', prevState)
     if (prevState.query !== this.state.query) {
       try {
-        // const data = await axios.get(
-        //   `${process.env.REACT_APP_DEFAULT_URL}everything?q=${this.state.query}&from=2020-01-11&sortBy=publishedAt&apiKey=f937548ce92c4cccab3e47b760e40b34`
-        // );
+        const data = await axios.get(
+          `https://newsapi.org/v2/everything?q=${this.state.query}&sortBy=publishedAt&apiKey=ed5ebee752754cf7a93918ae83acba6f`
+        );
+        console.log(data);
 
-        const data = await axios.get(this.state.query);
         this.setState({
-          news: data
+          news: data.data.articles
         });
       } catch (er) {
         console.log(er);
@@ -40,40 +48,50 @@ class News extends Component {
     }
   }
 
-  handleSubmit = evt => {
+  onHandleSubmit = evt => {
     evt.preventDefault();
     const [input] = evt.target.elements;
+    console.log(input.value);
     this.setState({
       query: input.value
     });
   };
 
+  onHandleMenuOpen = () => {
+    this.setState(prev => ({
+      isOpen: !prev.isOpen
+    }));
+  };
+
   render() {
-    const { news, query } = this.state;
-
-console.log("===>>>", this.state)
-
+    const { news = [], query, isOpen } = this.state;
+    console.log("news !!!");
     return (
-      <>
-        <Search onHandleSubmit={this.handleSubmit} />
-        <ul>
-          {news.map(article => {
-            return (
-              <li key={article.publishedAt}>
-                <Link
-                  to={{
-                    pathname: `news/${article.publishedAt}`,
-                    search: `?category=${query}`,
-                    state: { isAuth: true, news, id: article.publishedAt }
-                  }}
-                >
-                  {article.title}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </>
+      <ControllerContext.Consumer>
+        {value => {
+          console.log("context theme :", value);
+          return (
+            <NewsContext.Provider
+              value={{
+                news,
+                query,
+                isOpen,
+                onHandleSubmit: this.onHandleSubmit,
+                onHandleMenuOpen: this.onHandleMenuOpen,
+                buttonName: isOpen ? "CLose" : "Open"
+              }}
+            >
+              <Drawer />
+              <div className={styles.navMenu}>
+                <Btn />
+              </div>
+              <Suspense fallback={<Spinner />}>
+                {isOpen && <ShowMenu />}
+              </Suspense>
+            </NewsContext.Provider>
+          );
+        }}
+      </ControllerContext.Consumer>
     );
   }
 }

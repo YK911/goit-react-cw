@@ -6,7 +6,12 @@ const useStyles = makeStyles(theme => ({
   root: {
     "& > *": {
       margin: theme.spacing(1),
-      width: 200
+      width: 600,
+      border: "2px solid white",
+      borderRadius: "6px"
+    },
+    innerColor: {
+      backgroundColor: "white"
     }
   }
 }));
@@ -21,7 +26,12 @@ export default function BasicTextFields({ onHandleSubmit }) {
       autoComplete="off"
       onSubmit={onHandleSubmit}
     >
-      <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+      <TextField
+        className={classes.innerColor}
+        id="outlined-basic"
+        label="Search"
+        variant="filled"
+      />
     </form>
   );
 }
