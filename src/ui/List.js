@@ -21,7 +21,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const AlignItemsList = ({ image, title, author, description }) => {
+const AlignItemsList = ({
+  image,
+  title,
+  author,
+  description,
+  source,
+  query
+}) => {
   const classes = useStyles();
 
   return (
@@ -51,4 +58,4 @@ const AlignItemsList = ({ image, title, author, description }) => {
   );
 };
 
-export default toggle(AlignItemsList);
+export default toggle("https//:somefindNews")(AlignItemsList);

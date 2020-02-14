@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -179,21 +178,14 @@ export default function MiniDrawer() {
               <ul style={{ listStyle: "none" }}>
                 {news.map(article => (
                   <li key={article.urlToImage}>
-                    <Link
-                      style={{ textDecoration: "none" }}
-                      to={{
-                        pathname: `news/${article.source.name}`,
-                        search: `?category=${query}`,
-                        state: { isAuth: true }
-                      }}
-                    >
-                      <NewsList
-                        author={article.author}
-                        title={article.title}
-                        description={article.description}
-                        image={article.urlToImage}
-                      />
-                    </Link>
+                    <NewsList
+                      author={article.author}
+                      title={article.title}
+                      description={article.description}
+                      image={article.urlToImage}
+                      source={article.source.name}
+                      query={article.query}
+                    />
                   </li>
                 ))}
               </ul>
