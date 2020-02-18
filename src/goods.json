@@ -1,0 +1,32 @@
+[
+  {
+    "id": "1",
+    "name": "Bananas",
+    "description": "from China",
+    "price": "$200"
+  },
+  {
+    "id": "2",
+    "name": "Milk",
+    "description": "from China",
+    "price": "$100"
+  },
+  {
+    "id": "3",
+    "name": "Chicken",
+    "description": "from China",
+    "price": "$300"
+  },
+  {
+    "id": "4",
+    "name": "Capitan Morgan",
+    "description": "from China",
+    "price": "$150"
+  },
+  {
+    "id": "5",
+    "name": "Cherry",
+    "description": "from China",
+    "price": "$50"
+  }
+]
