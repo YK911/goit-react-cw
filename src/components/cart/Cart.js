@@ -1,28 +1,33 @@
 import React from "react";
-import goods from "../../goods.json";
 import { connect } from "react-redux";
-import { addGood } from "../../redux/actionCreator";
+import { delGood } from "../../redux/actionCreator";
+import shortid from "shortid";
 
 const style = {
   container: {
     width: "500px",
-    margin: "0 auto"
+    height: "auto",
+    margin: "20px auto",
+    backgroundColor: "#546e7a",
+    borderRadius: "10px"
   },
   title: {
     fontSize: "20px",
     fontWeight: "bold",
+    color: "white",
     textTransform: "uppercase",
-    textAlign: "right",
+    textAlign: "center",
     margin: "20px"
   },
 
   list: {
     display: "flex",
     flexWrap: "wrap",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     listStyle: "none"
   },
   listItem: {
+    width: "170px",
     padding: "5px",
     marginBottom: "10px"
   },
@@ -31,13 +36,13 @@ const style = {
   }
 };
 
-const Card = ({ card, addGood }) => (
-  <>
+const Cart = ({ card, delGood }) => {
+  return (
     <div style={style.container}>
-      <h2 style={style.title}>In cart {card.length} goods</h2>
+      <h2 style={style.title}>Cart</h2>
       <ul style={style.list}>
-        {goods.map(({ id, name, description, price }) => (
-          <li key={id} style={style.listItem}>
+        {card.map(({ id, name, description, price }) => (
+          <li key={shortid()} style={style.listItem}>
             <div className="card blue-grey darken-1">
               <div className="card-content white-text">
                 <span className="card-title">{name}</span>
@@ -47,13 +52,13 @@ const Card = ({ card, addGood }) => (
               <div className="card-action">
                 <button
                   id={id}
-                  onClick={() => addGood(id)}
+                  onClick={() => delGood(id)}
                   className="btn waves-effect waves-light"
                   type="submit"
                   name="action"
                   style={style.btn}
                 >
-                  Add to card
+                  Delete from cart
                   <i className="material-icons right">add_shopping_cart</i>
                 </button>
               </div>
@@ -62,8 +67,8 @@ const Card = ({ card, addGood }) => (
         ))}
       </ul>
     </div>
-  </>
-);
+  );
+};
 
 const mSTP = state => {
   return {
@@ -71,4 +76,4 @@ const mSTP = state => {
   };
 };
 
-export default connect(mSTP, { addGood })(Card);
+export default connect(mSTP, { delGood })(Cart);

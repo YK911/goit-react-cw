@@ -19,14 +19,8 @@
   },
   {
     "id": "4",
-    "name": "Capitan Morgan",
-    "description": "from China",
-    "price": "$150"
-  },
-  {
-    "id": "5",
     "name": "Cherry",
     "description": "from China",
-    "price": "$50"
+    "price": "$150"
   }
 ]
