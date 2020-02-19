@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Counter from "./components/Counter";
-import Form from "./components/Form";
-import TodoList from "./components/TodoList";
+import Counter from "./components/counter/counterContainer";
+import Form from "./components/form/formContainer";
+import TodoList from "./components/todo/TodoList";
 
 class App extends Component {
   state = {};

@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import { addTodo } from "../redux/todo/todoActions";
-import { connect } from "react-redux";
 import shortid from "shortid";
 
 const initialState = { query: "" };
+
 class Form extends Component {
   state = {
     ...initialState
@@ -36,8 +35,4 @@ class Form extends Component {
   }
 }
 
-const mapDispatchToProps = {
-  addTodo
-};
-
-export default connect(null, mapDispatchToProps)(Form);
+export default Form;

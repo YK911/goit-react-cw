@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { deleteTodo } from "../redux/todo/todoActions";
+import { deleteTodo } from "../../redux/todo/todoActions";
 
 const TodoList = ({ data, deleteTodo }) => (
   <ul>
